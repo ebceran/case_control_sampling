@@ -74,51 +74,7 @@ However, the intercept becomes biased, because the sample no longer reflects tru
 4️⃣ Correcting the Intercept
 
 We apply the Stanford Statistical Learning correction:
-
-𝛽
-0
-\*
-=
-𝛽
-0
-+
-log
-⁡
-(
-𝜋
-1
-−
-𝜋
-)
-−
-log
-⁡
-(
-𝑞
-1
-−
-𝑞
-)
-β
-0
-\*
-	​
-
-=β
-0
-	​
-
-+log(
-1−π
-π
-	​
-
-)−log(
-1−q
-q
-	​
-
-)
+<img width="446" height="108" alt="image" src="https://github.com/user-attachments/assets/2558326a-f147-4670-b9af-52a0ee3a4675" />
 
 Where:
 
