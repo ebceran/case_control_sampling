@@ -7,6 +7,7 @@ Case–Control Sampling & Intercept Correction
 
 A practical demonstration of how banks and fintech companies deal with rare events such as credit defaults and fraud.
 
+
 * Project Overview
 
 In real-world financial datasets, positive cases are extremely rare:
@@ -24,12 +25,13 @@ because it learns to always predict the majority class.
 
 To solve this problem, banks use:
 
-✔ Case–Control Sampling
-✔ Intercept Bias Correction (as taught in Stanford Statistical Learning)
+- Case–Control Sampling
+- Intercept Bias Correction (as taught in Stanford Statistical Learning)
 
 This project demonstrates both techniques clearly and practically.
 
 ** What This Project Teaches
+
 1️⃣ Creating an imbalanced financial dataset
 
 We synthetically simulate 5000 customers with:
@@ -42,6 +44,7 @@ number of late payments
 
 Only 2% of these customers default — mimicking real credit risk datasets.
 
+
 2️⃣ Applying Case–Control Sampling
 
 We take:
@@ -51,6 +54,7 @@ all defaulting customers (cases)
 an equal number of non-defaults (controls)
 
 This creates a balanced dataset that allows logistic regression to actually learn the patterns instead of guessing “always 0”.
+
 
 3️⃣ Training Logistic Regression
 
@@ -65,6 +69,7 @@ higher income → lower risk
 late payments → strong risk factor
 
 However, the intercept becomes biased, because the sample no longer reflects true population rates.
+
 
 4️⃣ Correcting the Intercept
 
@@ -124,6 +129,7 @@ q = sampled dataset default rate
 This adjusts the model so it outputs realistic default probabilities.
 
 This is exactly how banks fix models before deploying them.
+
 
 5️⃣ Visualizing Probability with Corrected Intercept
 
