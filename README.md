@@ -1,5 +1,5 @@
-# case_control_sampling
-Case Control Sampling
+# Case–Control Sampling & Intercept Correction  
+*Handling Imbalanced Financial Data (Credit Default Simulation)*
 
 A mini but professional-level project demonstrating how to handle imbalanced data in financial modeling.
 
