@@ -147,22 +147,8 @@ Matplotlib
 
 
 *Author
+
 Emine Ceran
 Learning Financial Data Science & Statistical Modelling
 Inspired by Stanford’s Statistical Learning course
 
-
-*** Future Improvements
-Add ROC curves & AUC metrics
-
-Compare logistic regression vs tree-based models
-
-Create a full credit scorecard version
-
-Add real-world dataset integration (open source credit datasets)
-
-yaml
-Copy code
-
-Author
-Emine Ceran
