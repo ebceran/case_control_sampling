@@ -1,165 +1,168 @@
 # Case–Control Sampling & Intercept Correction  
-*Handling Imbalanced Financial Data (Credit Default Simulation)*
+*Handling Imbalanced Financial Data in Credit Default Modelling*
 
-A mini but professional-level project demonstrating how to handle imbalanced data in financial modeling.
+---
 
-Case–Control Sampling & Intercept Correction
+##  Overview  
+Financial datasets are almost always **imbalanced**.  
+In real banking and fintech environments:
 
-A practical demonstration of how banks and fintech companies deal with rare events such as credit defaults and fraud.
+- Defaults occur in ~2% of customers  
+- Fraud happens in ~0.1% of transactions  
+- AML suspicious cases appear in ~0.01%  
+- Churn events may be around 3–5%
 
+A standard Logistic Regression model **cannot learn meaningful patterns** from such rare events.  
+Instead, it tends to predict the majority class every time, resulting in:
 
-* Project Overview
+✔ high accuracy  
+✘ zero real predictive value  
 
-In real-world financial datasets, positive cases are extremely rare:
+This project demonstrates how to fix this using:
 
-credit defaults → ~2%
+### * Case–Control Sampling  
+### * Intercept Bias Correction (Stanford Statistical Learning)
 
-fraud → ~0.1%
+Both techniques are widely used in **credit risk**, **fraud detection**, and **fintech analytics**.
 
-AML suspicious activity → ~0.01%
+---
 
-customer churn → ~5%
+##  Project Goals  
 
-A standard logistic regression model fails badly on such imbalanced data,
-because it learns to always predict the majority class.
+This mini project aims to:
 
-To solve this problem, banks use:
+- Show why imbalanced datasets break standard logistic regression  
+- Demonstrate how to oversample the rare class *without destroying statistical validity*  
+- Train a logistic regression model on a balanced sample  
+- Apply **bias correction** to recover realistic probability estimates  
+- Visualize how corrected probabilities behave with respect to a key risk feature  
 
-- Case–Control Sampling
-- Intercept Bias Correction (as taught in Stanford Statistical Learning)
+This project is intentionally simple and educational —  
+a beginner-friendly introduction to real-world financial modelling workflows.
 
-This project demonstrates both techniques clearly and practically.
+---
 
-** What This Project Teaches
+##  Dataset Simulation  
 
-1️⃣ Creating an imbalanced financial dataset
+We simulate a dataset of **5,000 customers** with features typically used in credit scoring:
 
-We synthetically simulate 5000 customers with:
+- `age`  
+- `income`  
+- `late_payments`  
 
-age
+Only **2%** of the customers default — matching real credit risk data.
 
-income
+A synthetic logistic function determines the underlying “true” probability of default.  
+Labels (`default = 1/0`) are generated using this function.
 
-number of late payments
+---
 
-Only 2% of these customers default — mimicking real credit risk datasets.
+##  Methodology  
 
+### **1️⃣ Case–Control Sampling**  
+To allow the model to learn meaningful patterns:
 
-2️⃣ Applying Case–Control Sampling
+- we take **all default cases**  
+- and randomly sample an equal number of non-default customers  
 
-We take:
+This produces a **50/50 balanced dataset**, ideal for logistic regression training.
 
-all defaulting customers (cases)
+---
 
-an equal number of non-defaults (controls)
+### **2️⃣ Train Logistic Regression on Sampled Data**  
+The model learns appropriate coefficients:
 
-This creates a balanced dataset that allows logistic regression to actually learn the patterns instead of guessing “always 0”.
+- age → slightly lowers risk  
+- income → lowers risk  
+- late payments → strong positive effect  
 
+However, the intercept becomes **biased**, because the sampled dataset no longer reflects the real-world event rate.
 
-3️⃣ Training Logistic Regression
+---
 
-The model is trained on the sampled (balanced) dataset.
+### **3️⃣ Intercept Bias Correction**  
+Using the formula from *Stanford Statistical Learning*:
 
-It learns the correct direction of effects:
-
-older customers → lower risk
-
-higher income → lower risk
-
-late payments → strong risk factor
-
-However, the intercept becomes biased, because the sample no longer reflects true population rates.
-
-
-4️⃣ Correcting the Intercept
-
-We apply the Stanford Statistical Learning correction:
-<img width="446" height="108" alt="image" src="https://github.com/user-attachments/assets/2558326a-f147-4670-b9af-52a0ee3a4675" />
+\[
+\beta_0^\* = \beta_0 + \log\left(\frac{\pi}{1-\pi}\right)  
+            - \log\left(\frac{q}{1-q}\right)
+\]
 
 Where:
 
-π = true default rate
+- π = true positive rate in full data (2%)  
+- q = positive rate in sampled data (50%)  
 
-q = sampled dataset default rate
+After this correction, the model outputs **realistic default probabilities** suitable for practical use.
 
-This adjusts the model so it outputs realistic default probabilities.
+---
 
-This is exactly how banks fix models before deploying them.
+### **4️⃣ Probability Curve Visualization**  
+A corrected sigmoid curve is plotted to show how default probability changes with `late_payments`.
+
+This mirrors how **credit scorecards** and **risk effect plots** are generated in the banking industry.
+
+---
+
+## Why This Matters in Banking & FinTech  
+
+Rare events are the backbone of financial risk analytics.  
+Understanding Case–Control Sampling is essential for roles involving:
+
+- Credit Risk Modelling  
+- Fraud Analytics  
+- Collections Strategy  
+- Regulatory Modelling (FCA / PRA / Basel)  
+- Fintech Risk & Data Science  
+- Customer Churn Prediction  
+
+This project demonstrates foundational knowledge required for these areas:
+
+- handling imbalanced datasets  
+- logistic regression understanding  
+- probability correction  
+- feature risk interpretation  
+
+---
+
+## How to Run the Notebook  
+
+1. Clone the repository:  
+   ```bash
+   git clone https://github.com/ebceran/case_control_sampling.git
+Open the notebook in Google Colab or Jupyter Notebook
+
+Run all cells from top to bottom
+
+ *Tools & Technologies
+Python
+
+NumPy
+
+Pandas
+
+Scikit-Learn
+
+Matplotlib
 
 
-5️⃣ Visualizing Probability with Corrected Intercept
+*Author
+Emine Ceran
+Learning Financial Data Science & Statistical Modelling
+Inspired by Stanford’s Statistical Learning course
 
-A final sigmoid curve shows how default probability changes with the number of late payments — using the corrected intercept.
 
-This represents a real-world credit scoring effect curve.
+*** Future Improvements
+Add ROC curves & AUC metrics
 
-* Why This Project Matters in Banking & FinTech
+Compare logistic regression vs tree-based models
 
-Case–control sampling is essential in:
+Create a full credit scorecard version
 
-credit scoring
+Add real-world dataset integration (open source credit datasets)
 
-fraud detection
-
-AML investigations
-
-risk modelling
-
-collections strategies
-
-churn prediction
-
-*Understanding this concept shows that you:
-
-- know how rare events behave
-- understand logistic regression deeply
-- can work with imbalanced financial datasets
-- can apply statistical corrections correctly
-- can think like a real risk analyst / data scientist
-
-This is exactly what hiring managers look for.
-
-* Skills Demonstrated
-
-Python (NumPy, Pandas, Scikit-Learn, Matplotlib)
-
-Logistic Regression
-
-Imbalanced Data Handling
-
-Sampling vs Population Bias
-
-Statistical Correction of Intercept
-
-Probability Curve Interpretation
-
-Data Science in Financial Risk
-
-* Next Steps
-
-This project is part of an ongoing series focused on financial data science:
-
-- Basic Logistic Regression Project
-
-- Case–Control Sampling Project (this one)
-
-+ Scorecard-Style Credit Model
-
-+ Fraud Detection Simulation
-
-+ Customer Churn Modelling
-
-+ Time-Series Forecasting (Monthly Revenue / Stock Data)
-
-Each project builds a stronger foundation for working in:
-
-credit risk
-
-fraud analytics
-
-fintech data science
-
-financial machine learning
+yaml
+Copy code
 
 Author
 Emine Ceran
